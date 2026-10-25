@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kalkulator Keperluan Takaful Keluarga</title>
+<style>
+:root{--green:#153c35;--mint:#e6f2e9;--line:#dce5df;--bg:#f5f8f6;--ink:#182522;--muted:#64736d;--white:#fff;--orange:#9a5a13}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--ink)}
+header{background:var(--green);color:#fff;padding:28px 20px}header .wrap,main{max-width:1120px;margin:auto}h1{margin:0 0 5px;font-size:clamp(24px,4vw,34px)}header p{margin:0;color:#d9e9df}.wrap{max-width:1120px;margin:auto}
+main{padding:20px;display:grid;grid-template-columns:minmax(280px, .92fr) minmax(320px,1.08fr);gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 2px 8px #153c3508}.card h2{font-size:19px;margin:0 0 14px}.section{padding:15px 0;border-top:1px solid var(--line)}.section:first-of-type{border-top:0;padding-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:650;color:#43524c}input,select{font:inherit;border:1px solid #cbd7d0;border-radius:9px;padding:10px 11px;width:100%;background:#fff;color:var(--ink)}input:focus,select:focus{outline:2px solid #a8d6b7;border-color:#55946c}.hint{font-size:12px;color:var(--muted);margin:3px 0 0}
+.results{display:flex;flex-direction:column;gap:14px}.hero{background:var(--green);color:#fff;border-radius:14px;padding:18px}.hero small{color:#d9e9df}.big{font-size:30px;font-weight:750;letter-spacing:-.5px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{border:1px solid var(--line);border-radius:12px;padding:13px}.metric small{color:var(--muted);display:block}.metric strong{font-size:21px;display:block;margin-top:4px}.gapcard{border:1px solid var(--line);border-radius:12px;padding:14px}.gaphead{display:flex;justify-content:space-between;gap:10px;align-items:start}.gaphead h3{font-size:15px;margin:0}.gaphead strong{font-size:18px;white-space:nowrap}.track{height:9px;border-radius:20px;background:#edf1ee;overflow:hidden;margin:10px 0 5px}.fill{height:100%;width:0;background:#478763;border-radius:20px}.sub{font-size:12px;color:var(--muted)}.pill{display:inline-block;border-radius:20px;padding:3px 9px;background:var(--mint);color:var(--green);font-size:12px;font-weight:700}.warn{background:#fff0da;color:#874d0b}.buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}button{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-weight:700;cursor:pointer;background:var(--green);color:#fff}button.secondary{background:#e8efea;color:var(--green)}button:hover{filter:brightness(.97)}.scenario{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.scenario div{background:#f3f7f4;border-radius:10px;padding:10px}.scenario small{font-size:11px;color:var(--muted);display:block}.scenario strong{font-size:16px}.notice{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}.hide{display:none}.chartrow{display:grid;grid-template-columns:130px 1fr 90px;gap:8px;align-items:center;margin:11px 0;font-size:13px}.chartrow .track{margin:0}.chartrow b{text-align:right;font-size:12px}.footer{max-width:1120px;margin:0 auto;padding:0 20px 28px;color:var(--muted);font-size:12px}
+@media(max-width:820px){main{grid-template-columns:1fr;padding:12px}.card{padding:16px}.metrics{grid-template-columns:1fr 1fr}.chartrow{grid-template-columns:105px 1fr 78px}header{padding:24px 16px}}
+@media print{body{background:#fff;font-size:12px}header{padding:14px 18px}main{display:block;padding:10px;max-width:none}.input-card,.buttons,.no-print{display:none!important}.card{box-shadow:none;border:1px solid #ddd;margin-bottom:10px;break-inside:avoid}.results{display:block}.hero{background:#153c35!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}.gapcard,.metric{break-inside:avoid}.footer{padding:0 10px}.big{font-size:24px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>🛡️ Kalkulator Keperluan Takaful Keluarga</h1><p>Analisis jurang perlindungan pendapatan • Kematian • TPD • Penyakit kritikal</p></div></header>
+<main>
+<section class="card input-card">
+<h2>Maklumat pelanggan</h2>
+<div class="section"><div class="grid">
+<div class="field full"><label for="nama">Nama pelanggan (pilihan)</label><input id="nama" placeholder="Nama pelanggan"></div>
+<div class="field"><label for="umur">Umur sekarang</label><input id="umur" type="number" min="18" max="100" value="35"></div>
+<div class="field"><label for="bersara">Umur persaraan</label><input id="bersara" type="number" min="18" max="100" value="60"></div>
+<div class="field"><label for="income">Pendapatan utama / bulan (RM)</label><input id="income" type="number" min="0" value="5000"></div>
+<div class="field"><label for="spouse">Pendapatan pasangan / bulan (RM)</label><input id="spouse" type="number" min="0" value="0"></div>
+</div></div>
+<div class="section"><h2>Aliran tunai keluarga</h2><div class="grid">
+<div class="field full"><label for="expenses">Perbelanjaan wajib bulanan (RM)</label><input id="expenses" type="number" min="0" value="3500"><p class="hint">Rumah, makanan, pengangkutan, anak, hutang, ibu bapa dan komitmen wajib.</p></div>
+<div class="field full"><label for="replacement">Peratus belanja yang perlu diganti kepada keluarga</label><select id="replacement"><option value="50">50% — gantian asas</option><option value="75">75% — gantian sederhana</option><option value="100" selected>100% — gantian penuh</option></select></div>
+<div class="field"><label for="tpdYears">Tempoh dana TPD (tahun)</label><input id="tpdYears" type="number" min="1" max="50" value="6"></div>
+<div class="field"><label for="ciYears">Tempoh dana penyakit kritikal (tahun)</label><input id="ciYears" type="number" min="1" max="30" value="3"></div>
+</div></div>
+<div class="section"><h2>Perlindungan & aset sedia ada</h2><div class="grid">
+<div class="field"><label for="life">Manfaat kematian / keluarga (RM)</label><input id="life" type="number" min="0" value="100000"></div>
+<div class="field"><label for="tpd">Manfaat TPD (RM)</label><input id="tpd" type="number" min="0" value="0"></div>
+<div class="field"><label for="ci">Manfaat penyakit kritikal (RM)</label><input id="ci" type="number" min="0" value="0"></div>
+<div class="field"><label for="savings">Simpanan boleh guna (RM)</label><input id="savings" type="number" min="0" value="30000"></div>
+<div class="field full"><label><input id="offsetSavings" type="checkbox" style="width:auto;margin-right:7px">Tolak simpanan daripada jurang perlindungan</label><p class="hint">Secara lalai simpanan tidak ditolak kerana mungkin diperlukan untuk kecemasan atau matlamat lain.</p></div>
+</div></div>
+<div class="section"><h2>Bajet caruman</h2><div class="grid">
+<div class="field"><label for="budget">Bajet caruman / bulan (RM)</label><input id="budget" type="number" min="0" value="200"></div>
+<div class="field"><label for="inflation">Andaian inflasi tahunan (%)</label><input id="inflation" type="number" min="0" max="20" step=".5" value="0"></div>
+</div><p class="hint">Inflasi 0% digunakan dalam pengiraan asas. Ubah nilai untuk melihat kesan anggaran kos masa depan.</p></div>
+<div class="buttons"><button id="reset" class="secondary" type="button">Pulihkan contoh</button><button id="print" type="button">Cetak / Simpan PDF</button></div>
+</section>
+<section class="results">
+<div class="card">
+<div class="hero"><small id="clientLabel">RINGKASAN KEWANGAN</small><div class="big" id="monthlyBalance">RM 1,500</div><div>Baki selepas perbelanjaan bulanan</div><div style="margin-top:10px"><span class="pill" id="cashStatus">Lebihan bulanan</span></div></div>
+<div class="metrics" style="margin-top:12px">
+<div class="metric"><small>Jumlah pendapatan isi rumah</small><strong id="totalIncome">RM 5,000</strong></div>
+<div class="metric"><small>Perbelanjaan / pendapatan</small><strong id="expenseRatio">70%</strong></div>
+<div class="metric"><small>Tahun hingga persaraan</small><strong id="yearsToRetire">25 tahun</strong></div>
+<div class="metric"><small>Baki selepas bajet caruman</small><strong id="afterBudget">RM 1,300</strong></div>
+</div></div>
+<div class="card"><h2>Jurang perlindungan</h2><p class="sub">Sasaran ialah anggaran dana gantian pendapatan, bukan sebut harga atau cadangan produk tertentu.</p>
+<div class="gapcard"><div class="gaphead"><div><h3>Kematian / kelangsungan keluarga</h3><div class="sub" id="lifeFormula"></div></div><strong id="lifeGap">RM 950,000</strong></div><div class="track"><div class="fill" id="lifeBar"></div></div><div class="sub" id="lifeDetail"></div></div>
+<div class="gapcard" style="margin-top:10px"><div class="gaphead"><div><h3>Hilang upaya menyeluruh dan kekal (TPD)</h3><div class="sub" id="tpdFormula"></div></div><strong id="tpdGap">RM 252,000</strong></div><div class="track"><div class="fill" id="tpdBar"></div></div><div class="sub" id="tpdDetail"></div></div>
+<div class="gapcard" style="margin-top:10px"><div class="gaphead"><div><h3>Penyakit kritikal</h3><div class="sub" id="ciFormula"></div></div><strong id="ciGap">RM 126,000</strong></div><div class="track"><div class="fill" id="ciBar"></div></div><div class="sub" id="ciDetail"></div></div>
+</div>
+<div class="card"><h2>Perbandingan sasaran & perlindungan semasa</h2><div id="chart"></div><p class="sub">Bar hijau = sasaran. Nilai jurang mengambil kira manfaat sedia ada dan pilihan penggunaan simpanan.</p></div>
+<div class="card"><h2>Simulasi umur persaraan</h2><p class="sub">Anggaran keperluan gantian keluarga berubah mengikut tempoh hingga persaraan. Andaian inflasi yang dipilih turut dipaparkan.</p><div class="scenario">
+<div><small>Persaraan 55 tahun</small><strong id="ret55">—</strong></div><div><small>Persaraan 60 tahun</small><strong id="ret60">—</strong></div><div><small>Persaraan 65 tahun</small><strong id="ret65">—</strong></div>
+</div><p class="sub" id="inflationNote" style="margin-top:12px"></p></div>
+<div class="card"><h2>Rumusan untuk perbincangan pelanggan</h2><div id="summary" style="white-space:pre-line"></div><div class="buttons no-print"><button id="copy">Salin ringkasan</button><button id="print2" class="secondary">Cetak / Simpan PDF</button></div><p class="notice">Peringatan: Kalkulator ini memberi anggaran kasar berdasarkan input pengguna. Model linear tidak mengambil kira nilai masa wang, pulangan pelaburan, hutang sekaligus, kos rawatan sebenar, manfaat majikan, tempoh menunggu, pengecualian, definisi TPD/penyakit kritikal atau syarat sijil. Jangan anggap manfaat kematian dan TPD boleh dibayar serentak; semak terma sijil. Keperluan sebenar perlu dinilai bersama pengendali takaful berlesen atau penasihat kewangan yang layak.</p></div>
+</section>
+</main>
+<div class="footer">Versi prototaip tempatan • Data yang dimasukkan diproses dalam pelayar ini dan tidak dihantar ke pelayan oleh aplikasi ini.</div>
+<script>
+const ids=['nama','umur','bersara','income','spouse','expenses','replacement','tpdYears','ciYears','life','tpd','ci','savings','offsetSavings','budget','inflation'];
+const $=id=>document.getElementById(id);
+const num=id=>Math.max(0,Number($(id).value)||0);
+const rm=n=>'RM '+Math.round(n).toLocaleString('en-MY');
+function setText(id,text){$(id).textContent=text}
+function calc(){
+ const age=num('umur'),ret=num('bersara'),years=Math.max(0,ret-age),inc=num('income')+num('spouse'),exp=num('expenses'),rep=num('replacement')/100;
+ const bal=inc-exp,budget=num('budget'),inf=num('inflation')/100,off=$('offsetSavings').checked?num('savings'):0;
+ const targets={
+  life:exp*12*years*rep,
+  tpd:exp*12*num('tpdYears'),
+  ci:exp*12*num('ciYears')
+ };
+ const cover={life:num('life'),tpd:num('tpd'),ci:num('ci')};
+ const gaps={life:Math.max(0,targets.life-cover.life-off),tpd:Math.max(0,targets.tpd-cover.tpd-off),ci:Math.max(0,targets.ci-cover.ci-off)};
+ const labels={life:'Kematian / keluarga',tpd:'TPD',ci:'Penyakit kritikal'};
+ setText('clientLabel',($('nama').value.trim()?$('nama').value.trim().toUpperCase()+' • ':'')+'RINGKASAN KEWANGAN');
+ setText('monthlyBalance',rm(bal));setText('totalIncome',rm(inc));setText('expenseRatio',(inc>0?Math.round(exp/inc*100):0)+'%');setText('yearsToRetire',years+' tahun');setText('afterBudget',rm(bal-budget));
+ setText('cashStatus',bal<0?'Defisit bulanan':budget>Math.max(0,bal)?'Semak bajet caruman':'Lebihan bulanan');
+ $('cashStatus').className='pill '+(bal<0||budget>Math.max(0,bal)?'warn':'');
+ const formulas={
+ life:`${rm(exp)} × 12 × ${years} tahun × ${Math.round(rep*100)}%`,
+ tpd:`${rm(exp)} × 12 × ${num('tpdYears')} tahun`,
+ ci:`${rm(exp)} × 12 × ${num('ciYears')} tahun`
+ };
+ for(const k of ['life','tpd','ci']){
+  const actual=Math.min(targets[k],cover[k]+off);
+  setText(k+'Formula',formulas[k]);
+  setText(k+'Gap',rm(gaps[k]));
+  setText(k+'Detail',`Sasaran ${rm(targets[k])} • Perlindungan sedia ada ${rm(cover[k])}`+(off?` • Simpanan ditolak ${rm(off)}`:''));
+  $(k+'Bar').style.width=(targets[k]>0?Math.min(100,actual/targets[k]*100):0)+'%';
+ }
+ $('chart').innerHTML='';
+ const max=Math.max(1,...Object.values(targets),...Object.values(cover));
+ for(const k of ['life','tpd','ci']){
+  const row=document.createElement('div');row.className='chartrow';
+  const label=document.createElement('span');label.textContent=labels[k];
+  const track=document.createElement('div');track.className='track';
+  const fill=document.createElement('div');fill.className='fill';fill.style.width=(targets[k]/max*100)+'%';
+  track.appendChild(fill);const value=document.createElement('b');value.textContent=rm(targets[k]);
+  row.append(label,track,value);$('chart').appendChild(row);
+  const coverRow=document.createElement('div');coverRow.className='chartrow';
+  const cLabel=document.createElement('span');cLabel.textContent='  Sedia ada';
+  const cTrack=document.createElement('div');cTrack.className='track';
+  const cFill=document.createElement('div');cFill.className='fill';cFill.style.background='#8ba99a';cFill.style.width=(cover[k]/max*100)+'%';
+  cTrack.appendChild(cFill);const cValue=document.createElement('b');cValue.textContent=rm(cover[k]);
+  coverRow.append(cLabel,cTrack,cValue);$('chart').appendChild(coverRow);
+ }
+ function retirementTarget(r){const y=Math.max(0,r-age);return exp*12*y*rep*(inf===0?1:Math.pow(1+inf,y/2))}
+ setText('ret55',rm(retirementTarget(55)));setText('ret60',rm(retirementTarget(60)));setText('ret65',rm(retirementTarget(65)));
+ setText('inflationNote',`Andaian inflasi: ${(inf*100).toFixed(1)}% setahun. Simulasi inflasi menggunakan faktor anggaran sepanjang tempoh; angka ini ilustrasi, bukan unjuran kewangan.`);
+ const status=bal<0?'aliran tunai bulanan defisit':budget>Math.max(0,bal)?'bajet caruman melebihi lebihan bulanan':'bajet caruman berada dalam had lebihan bulanan';
+ const summary=`${$('nama').value.trim()?'Pelanggan: '+$('nama').value.trim()+'\\n':''}Umur ${age}; sasaran persaraan umur ${ret} (${years} tahun lagi).\\nPendapatan isi rumah: ${rm(inc)}/bulan. Perbelanjaan wajib: ${rm(exp)}/bulan. Baki: ${rm(bal)}/bulan.\\n\\nANGGARAN SASARAN / JURANG\\nKematian/keluarga: sasaran ${rm(targets.life)}, jurang ${rm(gaps.life)}.\\nTPD: sasaran ${rm(targets.tpd)}, jurang ${rm(gaps.tpd)}.\\nPenyakit kritikal: sasaran ${rm(targets.ci)}, jurang ${rm(gaps.ci)}.\\n\\nBajet caruman: ${rm(budget)}/bulan; baki selepas bajet: ${rm(bal-budget)}/bulan. Status: ${status}.\\n\\nLangkah seterusnya: sahkan hutang, tanggungan, manfaat majikan, perlindungan semasa, keperluan kos rawatan dan syarat sijil sebelum memilih jumlah manfaat.`;
+ setText('summary',summary);
+ window.reportText=summary;
+}
+ids.forEach(id=>$(id).addEventListener('input',calc));
+$('reset').addEventListener('click',()=>{const defaults={nama:'',umur:35,bersara:60,income:5000,spouse:0,expenses:3500,replacement:100,tpdYears:6,ciYears:3,life:100000,tpd:0,ci:0,savings:30000,offsetSavings:false,budget:200,inflation:0};for(const [k,v] of Object.entries(defaults))$(k).type==='checkbox'?$(k).checked=v:$(k).value=v;calc()});
+function printReport(){window.print()}
+$('print').addEventListener('click',printReport);$('print2').addEventListener('click',printReport);
+$('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(window.reportText);$('copy').textContent='Ringkasan disalin ✓';setTimeout(()=>$('copy').textContent='Salin ringkasan',1800)}catch(e){const t=document.createElement('textarea');t.value=window.reportText;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();$('copy').textContent='Ringkasan disalin ✓';setTimeout(()=>$('copy').textContent='Salin ringkasan',1800)}});
+calc();
+</script>
+</body></html>
